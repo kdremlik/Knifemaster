@@ -1,14 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using UI;
+using UnityEngine.Events;
 
-namespace Architecture
+namespace Architecture.StateMachine.States
 {
     public class MenuState : BaseState
     {
+        private MenuView menuView;
+        private UnityAction transitionToGameState;
+
+        public MenuState(UnityAction transitionToGameState, MenuView menuView)
+        {
+            this.menuView = menuView;
+            this.transitionToGameState = transitionToGameState;
+
+        }
         public override void InitState()
         {
+            if (menuView != null)
+                 menuView.ShowView();
 
+            menuView.PlayButton.onClick.AddListener(transitionToGameState);
+            
         }
 
         public override void UpdateState()
@@ -18,7 +30,11 @@ namespace Architecture
 
         public override void DestroyState()
         {
-
+            if (menuView != null)
+                menuView.HideView();
+            
+            menuView.PlayButton.onClick.RemoveAllListeners();
+            
         }
     }
 }
