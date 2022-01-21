@@ -21,10 +21,10 @@ namespace Architecture.StateMachine
         
         private void Start()
         {
+            toGameStateTransition = () => ChangeState(gameState);
             menuState = new MenuState(toGameStateTransition, menuView);
             gameState = new GameState(gameView);
             ChangeState(menuState);
-            toGameStateTransition = () => ChangeState(gameState);
 
         }
 
