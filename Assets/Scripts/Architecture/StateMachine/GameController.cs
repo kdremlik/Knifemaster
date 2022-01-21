@@ -1,18 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
+using Architecture.StateMachine.States;
+using InputSystemScripts;
+using UI;
 using UnityEngine;
+using UnityEngine.Events;
 
-
-namespace Architecture
+namespace Architecture.StateMachine
 {
     public class GameController : MonoBehaviour
     {
         private BaseState currentlyActiveState;
         private MenuState menuState;
+        private GameState gameState;
 
+        [SerializeField] private MenuView menuView;
+        [SerializeField] private GameView gameView;
+
+        private InputSystem inputSystem;
+
+        private UnityAction toGameStateTransition;
+        
         private void Start()
         {
-            menuState = new MenuState();
+            toGameStateTransition = () => ChangeState(gameState);
+            menuState = new MenuState(toGameStateTransition, menuView);
+            gameState = new GameState(gameView);
             ChangeState(menuState);
 
         }
