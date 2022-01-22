@@ -17,10 +17,11 @@ namespace Generation
         [SerializeField] private Transform knifePos;
         [SerializeField] private BaseKnife knifePrefab;
         [SerializeField] private Transform knifeRoot;
-        public void SpawnShield()
+        public BaseShield SpawnShield()
         {
             var shieldObj = Instantiate(shieldPrefab, shieldPos.position, shieldPos.rotation);
             shieldObj.transform.SetParent(shieldRoot);
+            return shieldObj;
         }
 
         public void SpawnKnife()

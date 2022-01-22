@@ -1,3 +1,4 @@
+using CoreGameplay;
 using Generation;
 using InputSystemScripts;
 using UI;
@@ -11,12 +12,14 @@ namespace Architecture.StateMachine.States
         private GameView gameView;
         private InputSystem inputSystem;
         private LevelGenerator levelGenerator;
+        private ShieldMovementController shieldMovementController;
         
-        public GameState(GameView gameView, InputSystem inputSystem, LevelGenerator levelGenerator)
+        public GameState(GameView gameView, InputSystem inputSystem, LevelGenerator levelGenerator, ShieldMovementController shieldMovementController)
         {
                 this.gameView = gameView;
                 this.inputSystem = inputSystem;
                 this.levelGenerator = levelGenerator;
+                this.shieldMovementController = shieldMovementController;
         }
         
         public override void InitState()
@@ -26,8 +29,10 @@ namespace Architecture.StateMachine.States
                 gameView.ShowView();
                 Debug.Log("GAME INIT");
             }
+            var startShield = levelGenerator.SpawnShield();
+            shieldMovementController.InitializeShield(startShield);
+            
             inputSystem.AddListener(PrintDebug);
-            levelGenerator.SpawnShield();
             levelGenerator.SpawnKnife();
             
         }
@@ -35,6 +40,7 @@ namespace Architecture.StateMachine.States
         public override void UpdateState()
         {
             inputSystem.UpdateSystem();
+            shieldMovementController.UpdateController();
         }
 
         public override void DestroyState()
