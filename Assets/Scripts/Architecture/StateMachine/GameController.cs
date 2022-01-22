@@ -1,4 +1,5 @@
 using Architecture.StateMachine.States;
+using CoreGameplay;
 using Generation;
 using InputSystemScripts;
 using UI;
@@ -23,12 +24,15 @@ namespace Architecture.StateMachine
         [SerializeField]
         private LevelGenerator levelGenerator;
         
+        private ShieldMovementController shieldMovementController;
+        
         private void Start()
         {
             toGameStateTransition = () => ChangeState(gameState);
+            shieldMovementController = new ShieldMovementController();
             inputSystem = new InputSystem();
             menuState = new MenuState(toGameStateTransition, menuView);
-            gameState = new GameState(gameView, inputSystem, levelGenerator);
+            gameState = new GameState(gameView, inputSystem, levelGenerator, shieldMovementController);
             ChangeState(menuState);
 
         }
@@ -36,6 +40,7 @@ namespace Architecture.StateMachine
         private void Update()
         {
             currentlyActiveState.UpdateState();
+            
         }
 
         private void OnDestroy()

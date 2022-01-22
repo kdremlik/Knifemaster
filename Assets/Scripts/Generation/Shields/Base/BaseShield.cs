@@ -6,6 +6,9 @@ namespace Generation
 {
     public abstract class BaseShield : MonoBehaviour
     {
-        
+        [SerializeField] protected ShieldMovementStep[] movementScheme;
+        public abstract void Rotate();
+        public abstract void Initialize();
+
     }
 }
