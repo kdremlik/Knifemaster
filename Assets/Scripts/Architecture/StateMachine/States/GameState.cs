@@ -28,6 +28,8 @@ namespace Architecture.StateMachine.States
             }
             inputSystem.AddListener(PrintDebug);
             levelGenerator.SpawnShield();
+            levelGenerator.SpawnKnife();
+            
         }
 
         public override void UpdateState()
