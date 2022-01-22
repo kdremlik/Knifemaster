@@ -1,3 +1,4 @@
+using Generation;
 using InputSystemScripts;
 using UI;
 using UnityEngine;
@@ -9,12 +10,13 @@ namespace Architecture.StateMachine.States
     {
         private GameView gameView;
         private InputSystem inputSystem;
+        private LevelGenerator levelGenerator;
         
-        public GameState(GameView gameView, InputSystem inputSystem)
+        public GameState(GameView gameView, InputSystem inputSystem, LevelGenerator levelGenerator)
         {
                 this.gameView = gameView;
                 this.inputSystem = inputSystem;
-                
+                this.levelGenerator = levelGenerator;
         }
         
         public override void InitState()
@@ -25,6 +27,9 @@ namespace Architecture.StateMachine.States
                 Debug.Log("GAME INIT");
             }
             inputSystem.AddListener(PrintDebug);
+            levelGenerator.SpawnShield();
+            levelGenerator.SpawnKnife();
+            
         }
 
         public override void UpdateState()

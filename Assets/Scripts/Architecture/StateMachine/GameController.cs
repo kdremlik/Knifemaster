@@ -1,4 +1,5 @@
 using Architecture.StateMachine.States;
+using Generation;
 using InputSystemScripts;
 using UI;
 using UnityEngine;
@@ -19,12 +20,15 @@ namespace Architecture.StateMachine
 
         private UnityAction toGameStateTransition;
         
+        [SerializeField]
+        private LevelGenerator levelGenerator;
+        
         private void Start()
         {
             toGameStateTransition = () => ChangeState(gameState);
             inputSystem = new InputSystem();
             menuState = new MenuState(toGameStateTransition, menuView);
-            gameState = new GameState(gameView, inputSystem);
+            gameState = new GameState(gameView, inputSystem, levelGenerator);
             ChangeState(menuState);
 
         }
