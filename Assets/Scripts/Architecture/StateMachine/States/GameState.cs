@@ -1,4 +1,6 @@
+using InputSystemScripts;
 using UI;
+using UnityEngine;
 
 namespace Architecture.StateMachine.States
 {
@@ -6,10 +8,13 @@ namespace Architecture.StateMachine.States
     public class GameState : BaseState
     {
         private GameView gameView;
-
-        public GameState(GameView gameView)
+        private InputSystem inputSystem;
+        
+        public GameState(GameView gameView, InputSystem inputSystem)
         {
                 this.gameView = gameView;
+                this.inputSystem = inputSystem;
+                
         }
         
         public override void InitState()
@@ -17,12 +22,14 @@ namespace Architecture.StateMachine.States
             if (gameView != null)
             {
                 gameView.ShowView();
+                Debug.Log("GAME INIT");
             }
+            inputSystem.AddListener(PrintDebug);
         }
 
         public override void UpdateState()
         {
-            
+            inputSystem.UpdateSystem();
         }
 
         public override void DestroyState()
@@ -31,6 +38,13 @@ namespace Architecture.StateMachine.States
             {
                 gameView.HideView();
             }
+            inputSystem.RemoveAllListeners();
         }
+        
+        private void PrintDebug()
+        {
+            Debug.Log("BUTTON CLICKED");
+        }
+
     }
 }

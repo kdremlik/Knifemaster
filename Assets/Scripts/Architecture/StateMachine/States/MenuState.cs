@@ -1,4 +1,5 @@
 using UI;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Architecture.StateMachine.States
@@ -17,8 +18,10 @@ namespace Architecture.StateMachine.States
         public override void InitState()
         {
             if (menuView != null)
-                 menuView.ShowView();
-
+            {
+                menuView.ShowView();
+                Debug.Log("MENU INIT");
+            }
             menuView.PlayButton.onClick.AddListener(transitionToGameState);
             
         }

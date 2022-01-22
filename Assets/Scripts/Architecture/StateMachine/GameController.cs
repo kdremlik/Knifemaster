@@ -22,8 +22,9 @@ namespace Architecture.StateMachine
         private void Start()
         {
             toGameStateTransition = () => ChangeState(gameState);
+            inputSystem = new InputSystem();
             menuState = new MenuState(toGameStateTransition, menuView);
-            gameState = new GameState(gameView);
+            gameState = new GameState(gameView, inputSystem);
             ChangeState(menuState);
 
         }
