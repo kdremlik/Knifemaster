@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Generation
 {
@@ -12,9 +13,11 @@ namespace Generation
         private int currentStep;
         private Vector3 startAngle;
         private Vector3 endAngle;
+        
 
-        public override void Initialize()
+        public override void Initialize(UnityAction OnShieldCallback, UnityAction OnWin)
         {
+            base.Initialize(OnShieldCallback, OnWin);
             currentStep = 0;
             var currentStepData = movementScheme[currentStep];
             startTime = Time.time;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Generation;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace CoreGameplay
 {
@@ -9,10 +10,15 @@ namespace CoreGameplay
     {
         private BaseShield currentlyAcitveShield;
 
-        public void InitializeShield(BaseShield newShield)
+        public void InitializeShield(BaseShield newShield, UnityAction OnShieldCallback, UnityAction OnWinCallback)
         {
+            if (currentlyAcitveShield != null)
+                currentlyAcitveShield.Dispose();
+            
             currentlyAcitveShield = newShield;
-            currentlyAcitveShield.Initialize();
+            currentlyAcitveShield.Initialize(OnShieldCallback,OnWinCallback);
+            
+            
         }
 
         public void UpdateController()

@@ -15,7 +15,8 @@ namespace Architecture.StateMachine.States
         private ShieldMovementController shieldMovementController;
         private KnifeThrower knifeThrower;
         
-        public GameState(GameView gameView, InputSystem inputSystem, LevelGenerator levelGenerator, ShieldMovementController shieldMovementController, KnifeThrower knifeThrower)
+        public GameState(GameView gameView, InputSystem inputSystem, LevelGenerator levelGenerator,
+            ShieldMovementController shieldMovementController, KnifeThrower knifeThrower)
         {
                 this.gameView = gameView;
                 this.inputSystem = inputSystem;
@@ -31,10 +32,9 @@ namespace Architecture.StateMachine.States
                 gameView.ShowView();
                 Debug.Log("GAME INIT");
             }
-            var startShield = levelGenerator.SpawnShield();
-            shieldMovementController.InitializeShield(startShield);
-            Knife knife = levelGenerator.SpawnKnife();
-            knifeThrower.SetKnife(knife);
+            
+            PrepareNewShield();
+            PrepareNewKnife();
             inputSystem.AddListener(knifeThrower.Throw);
             
         }
@@ -53,11 +53,17 @@ namespace Architecture.StateMachine.States
             }
             inputSystem.RemoveAllListeners();
         }
-        
-        private void PrintDebug()
-        {
-            Debug.Log("BUTTON CLICKED");
-        }
 
+        private void PrepareNewKnife()
+        {
+            var newKnife = levelGenerator.SpawnKnife();
+            knifeThrower.SetKnife(newKnife);
+        }
+        private void PrepareNewShield()
+        {
+            var newShield = levelGenerator.SpawnShield();
+            shieldMovementController.InitializeShield(newShield,PrepareNewKnife, PrepareNewShield);
+            
+        }
     }
 }
