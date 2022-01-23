@@ -15,7 +15,7 @@ namespace Generation
 
         [Header("Knife")]
         [SerializeField] private Transform knifePos;
-        [SerializeField] private BaseKnife knifePrefab;
+        [SerializeField] private Knife knifePrefab;
         [SerializeField] private Transform knifeRoot;
         public BaseShield SpawnShield()
         {
@@ -24,10 +24,12 @@ namespace Generation
             return shieldObj;
         }
 
-        public void SpawnKnife()
+        public Knife SpawnKnife()
         {
             var knifeObj = Instantiate(knifePrefab, knifePos.position, knifePos.rotation);
             knifeObj.transform.SetParent(knifeRoot);
+            
+            return knifeObj;
         }
     }
 }

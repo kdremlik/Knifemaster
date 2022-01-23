@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Generation
 {
-    public abstract class BaseKnife : MonoBehaviour
+    public class TestKnife : Knife
     {
 
     }

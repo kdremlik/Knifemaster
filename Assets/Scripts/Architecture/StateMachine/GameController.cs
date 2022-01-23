@@ -13,6 +13,7 @@ namespace Architecture.StateMachine
         private BaseState currentlyActiveState;
         private MenuState menuState;
         private GameState gameState;
+        private KnifeThrower knifeThrower;
 
         [SerializeField] private MenuView menuView;
         [SerializeField] private GameView gameView;
@@ -30,9 +31,10 @@ namespace Architecture.StateMachine
         {
             toGameStateTransition = () => ChangeState(gameState);
             shieldMovementController = new ShieldMovementController();
+            knifeThrower = new KnifeThrower();
             inputSystem = new InputSystem();
             menuState = new MenuState(toGameStateTransition, menuView);
-            gameState = new GameState(gameView, inputSystem, levelGenerator, shieldMovementController);
+            gameState = new GameState(gameView, inputSystem, levelGenerator, shieldMovementController, knifeThrower);
             ChangeState(menuState);
 
         }
