@@ -2,6 +2,7 @@ using Architecture.StateMachine.States;
 using CoreGameplay;
 using Generation;
 using InputSystemScripts;
+using Points;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,14 +28,17 @@ namespace Architecture.StateMachine
         
         private ShieldMovementController shieldMovementController;
         
+        private PointsController pointsController;
+        
         private void Start()
         {
             toGameStateTransition = () => ChangeState(gameState);
             shieldMovementController = new ShieldMovementController();
             knifeThrower = new KnifeThrower();
             inputSystem = new InputSystem();
+            pointsController = new PointsController();
             menuState = new MenuState(toGameStateTransition, menuView);
-            gameState = new GameState(gameView, inputSystem, levelGenerator, shieldMovementController, knifeThrower);
+            gameState = new GameState(gameView, inputSystem, levelGenerator, shieldMovementController, knifeThrower, pointsController);
             ChangeState(menuState);
 
         }
