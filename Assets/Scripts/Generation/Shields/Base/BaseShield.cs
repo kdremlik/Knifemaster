@@ -13,6 +13,8 @@ namespace Generation
         
         [SerializeField]private int knivesToWin;
         
+        public int KnivesToWin => knivesToWin;
+        
         [SerializeField] protected ShieldMovementStep[] movementScheme;
         [SerializeField]private List<Knife> knivesInShield = new List<Knife>();
 

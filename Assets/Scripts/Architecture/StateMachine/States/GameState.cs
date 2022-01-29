@@ -4,6 +4,7 @@ using InputSystemScripts;
 using Points;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Architecture.StateMachine.States
 {
@@ -72,9 +73,13 @@ namespace Architecture.StateMachine.States
         
         private void PrepareNewShield()
         {
+            UnityAction onShieldHit = gameView.DecreaseAmmo;
+            onShieldHit += PrepareNewKnife;
+            
             
             var newShield = levelGenerator.SpawnShield();
-            shieldMovementController.InitializeShield(newShield,PrepareNewKnife, PrepareNewShield);
+            shieldMovementController.InitializeShield(newShield,onShieldHit, PrepareNewShield);
+            gameView.SpawnAmmo(newShield.KnivesToWin);
             
         }
     }
