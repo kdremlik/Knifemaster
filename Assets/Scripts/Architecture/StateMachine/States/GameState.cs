@@ -17,9 +17,10 @@ namespace Architecture.StateMachine.States
         private ShieldMovementController shieldMovementController;
         private KnifeThrower knifeThrower;
         private PointsController pointsController;
-        
+        private StageController stageController;
+
         public GameState(GameView gameView, InputSystem inputSystem, LevelGenerator levelGenerator,
-            ShieldMovementController shieldMovementController, KnifeThrower knifeThrower, PointsController pointsController)
+            ShieldMovementController shieldMovementController, KnifeThrower knifeThrower, PointsController pointsController, StageController stageController)
         {
                 this.gameView = gameView;
                 this.inputSystem = inputSystem;
@@ -27,6 +28,7 @@ namespace Architecture.StateMachine.States
                 this.shieldMovementController = shieldMovementController;
                 this.knifeThrower = knifeThrower;
                 this.pointsController = pointsController;
+                this.stageController = stageController;
         }
         
         public override void InitState()
@@ -39,6 +41,7 @@ namespace Architecture.StateMachine.States
             pointsController.InitSystem();
             PrepareNewShield();
             PrepareNewKnife();
+            stageController.InitController();
             inputSystem.AddListener(knifeThrower.Throw);
             
         }
@@ -73,11 +76,15 @@ namespace Architecture.StateMachine.States
         
         private void PrepareNewShield()
         {
+            var nextStageType = stageController.NextStage();
+            var newShield = levelGenerator.SpawnShield(nextStageType);
+            gameView.UpdateStage(stageController.CurrentStage);
+            
+            
             UnityAction onShieldHit = gameView.DecreaseAmmo;
             onShieldHit += PrepareNewKnife;
             
             
-            var newShield = levelGenerator.SpawnShield();
             shieldMovementController.InitializeShield(newShield,onShieldHit, PrepareNewShield);
             gameView.SpawnAmmo(newShield.KnivesToWin);
             

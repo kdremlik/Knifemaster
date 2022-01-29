@@ -14,6 +14,7 @@ namespace Architecture.StateMachine
         private BaseState currentlyActiveState;
         private MenuState menuState;
         private GameState gameState;
+        private LoseState loseState;
         private KnifeThrower knifeThrower;
 
         [SerializeField] private MenuView menuView;
@@ -22,6 +23,8 @@ namespace Architecture.StateMachine
         private InputSystem inputSystem;
 
         private UnityAction toGameStateTransition;
+
+        private UnityAction toLoseStateTransition;
         
         [SerializeField]
         private LevelGenerator levelGenerator;
@@ -29,16 +32,22 @@ namespace Architecture.StateMachine
         private ShieldMovementController shieldMovementController;
         
         private PointsController pointsController;
+
+        private StageController stageController;
+
+        [SerializeField] private LoseView loseView;
         
         private void Start()
         {
             toGameStateTransition = () => ChangeState(gameState);
+            toLoseStateTransition = () => ChangeState(loseState);
             shieldMovementController = new ShieldMovementController();
             knifeThrower = new KnifeThrower();
             inputSystem = new InputSystem();
             pointsController = new PointsController();
+            stageController = new StageController();
             menuState = new MenuState(toGameStateTransition, menuView);
-            gameState = new GameState(gameView, inputSystem, levelGenerator, shieldMovementController, knifeThrower, pointsController);
+            gameState = new GameState(gameView, inputSystem, levelGenerator, shieldMovementController, knifeThrower, pointsController, stageController);
             ChangeState(menuState);
 
         }

@@ -10,16 +10,35 @@ namespace Generation
 
         [Header("Shield")]
         [SerializeField] private Transform shieldPos;
-        [SerializeField] private BaseShield shieldPrefab;
+
+        [SerializeField] private BaseShield[] simpleShields;
+        [SerializeField] private BaseShield[] bossShields;
+        
+        
         [SerializeField] private Transform shieldRoot;
 
         [Header("Knife")]
         [SerializeField] private Transform knifePos;
+        
         [SerializeField] private Knife knifePrefab;
+        
         [SerializeField] private Transform knifeRoot;
-        public BaseShield SpawnShield()
+        public BaseShield SpawnShield(StageType stageType)
         {
-            var shieldObj = Instantiate(shieldPrefab, shieldPos.position, shieldPos.rotation);
+            BaseShield shieldToSpawn = default;
+            if (stageType == StageType.Normal)
+            {
+                var randomIndex = Random.Range(0, simpleShields.Length);
+                shieldToSpawn = simpleShields[randomIndex];
+            }
+            else
+            {
+                var randomIndex = Random.Range(0, bossShields.Length);
+                shieldToSpawn = bossShields[randomIndex];
+                
+            }
+            
+            var shieldObj = Instantiate(shieldToSpawn, shieldPos.position, shieldPos.rotation);
             shieldObj.transform.SetParent(shieldRoot);
             return shieldObj;
         }
